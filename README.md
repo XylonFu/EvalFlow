@@ -10,19 +10,17 @@ python evalflow.py \
     --work_dir /path/to/work_dir \
     --eval_model_path /path/to/model \
     --eval_model_name model_name \
-    --judge_model_path /path/to/judge_model \
     --judge_model_name judge_model_name
 ```
 
 ## Parameters
 
 ### Required Parameters
-- `--conda_env`: Path to conda environment with dependencies (required)
+- `--conda_env`: Path to conda environment with vLLM/LMDeploy dependencies (required)
 - `--work_dir`: Working directory for evaluation results and temporary files (required)
 - `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
 - `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
-- `--judge_model_path`: Path to the judge model (required)
-- `--judge_model_name`: Name of the judge model (required)
+- `--judge_model_name`: Served Name of the judge model (required)
 
 ### Optional Parameters - General
 - `--reuse`: Whether to reuse existing results (True/False, default: True)

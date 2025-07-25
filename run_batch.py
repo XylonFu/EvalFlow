@@ -14,7 +14,6 @@ def parse_args():
         'LogicVista', 'MMMU_DEV_VAL', 'MathVista_MINI', 'WeMath', 'MathVision', 'MathVerse_MINI', 'DynaMath',
     ])
     
-    parser.add_argument('--judge_model_path', required=True)
     parser.add_argument('--judge_model_name', required=True)
     parser.add_argument('--judge_max_model_length', type=int, default=8192)
     parser.add_argument('--judge_max_num_seqs', type=int, default=200)
