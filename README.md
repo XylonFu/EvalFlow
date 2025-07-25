@@ -19,24 +19,36 @@ python evalflow.py \
 ## Parameters
 
 ### Required Parameters
-- `--conda_env`: Path to conda environment with dependencies
-- `--work_dir`: Directory for evaluation results
-- `--eval_model_path`: Path to model being evaluated (can specify multiple)
-- `--eval_model_name`: Name of model being evaluated (can specify multiple)
-- `--judge_model_path`: Path to judge model
-- `--judge_model_name`: Name of judge model
+- `--conda_env`: Path to conda environment with dependencies (required)
+- `--work_dir`: Working directory for evaluation results and temporary files (required)
+- `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
+- `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
+- `--judge_model_path`: Path to the judge/grader model (required)
+- `--judge_model_name`: Name of the judge/grader model (required)
 
-### Optional Parameters
-- `--reuse`: Reuse cached results (True/False)
-- `--datasets`: Space-separated list of datasets to evaluate
-- `--eval_max_model_length`: Maximum context length (default: 32768)
-- `--eval_max_new_tokens`: Maximum generation length (default: 2048)
-- `--eval_max_num_seqs`: Maximum concurrent sequences (default: 200)
-- `--eval_template`: Chat template path
-- `--eval_temperature`: Sampling temperature (default: 0.0)
-- `--eval_devices`: Comma-separated GPU devices (default: "0")
-- `--judge_max_model_length`: Judge model context length (default: 8192)
-- `--judge_max_num_seqs`: Judge model concurrent sequences (default: 200)
-- `--judge_devices`: Judge model GPU devices (default: "0")
-- `--eval_backend`: Evaluation backend ("VLMEvalKit" or "Native")
-- `--deploy_backend`: Serving backend ("vLLM" or "LMDeploy")
+### Optional Parameters - General
+- `--reuse`: Whether to reuse existing results (True/False, default: True)
+- `--datasets`: Space-separated list of datasets to evaluate (default: LogicVista MMMU_DEV_VAL MathVista_MINI WeMath MathVision MathVerse_MINI DynaMath)
+
+### Optional Parameters - Evaluation Model
+- `--eval_max_model_length`: Maximum context length for evaluation model (default: 32768)
+- `--eval_max_new_tokens`: Maximum new tokens to generate (default: 2048)
+- `--eval_max_num_seqs`: Maximum concurrent sequences for evaluation (default: 200)
+- `--eval_template`: Path to chat template file (default: None)
+- `--eval_temperature`: Sampling temperature (0.0 for deterministic) (default: 0.0)
+- `--eval_devices`: Comma-separated GPU devices for evaluation (default: "0")
+- `--eval_host`: Host address for evaluation service (default: "127.0.0.1")
+- `--eval_port`: Port for evaluation service (default: 8000)
+- `--eval_api_key`: API key for evaluation service (default: "EMPTY")
+
+### Optional Parameters - Judge Model
+- `--judge_max_model_length`: Maximum context length for judge model (default: 8192)
+- `--judge_max_num_seqs`: Maximum concurrent sequences for judging (default: 200)
+- `--judge_devices`: Comma-separated GPU devices for judge model (default: "0")
+- `--judge_host`: Host address for judge service (default: "10.7.91.121")
+- `--judge_port`: Port for judge service (default: 8000)
+- `--judge_api_key`: API key for judge service (default: "EmpTY")
+
+### Optional Parameters - Backend
+- `--eval_backend`: Evaluation backend ("VLMEvalKit" or "Native", default: "VLMEvalKit")
+- `--deploy_backend`: Model serving backend ("vLLM" or "LMDeploy", default: "vLLM")
