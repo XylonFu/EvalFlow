@@ -1,7 +1,5 @@
 # EvalFlow
 
-## Introduction
-
 EvalFlow is a plugin for [EvalScope](https://github.com/modelscope/evalscope) that simplifies model deployment and evaluation through a unified command-line interface. It handles both model serving and benchmark evaluation in one workflow.
 
 ## Basic Usage
