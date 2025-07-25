@@ -7,7 +7,7 @@ import os
 def run_evaluation(args, model_path, model_name):
     devices = [int(d) for d in args.eval_devices.split(',')]
 
-    if args.deploy_backend == 'vllm':
+    if args.deploy_backend == 'vLLM':
         eval_server = start_vllm_server(
             conda_env_path=args.conda_env,
             model_path=model_path,
@@ -19,7 +19,7 @@ def run_evaluation(args, model_path, model_name):
             port=args.eval_port,
             chat_template=args.eval_template,
         )
-    elif args.deploy_backend == 'lmdeploy':
+    elif args.deploy_backend == 'LMDeploy':
         eval_server = start_lmdeploy_server(
             conda_env_path=args.conda_env,
             model_path=model_path,

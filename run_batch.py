@@ -36,7 +36,7 @@ def parse_args():
     parser.add_argument('--eval_api_key', type=str, default='EMPTY')
 
     parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
-    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy'])
+    parser.add_argument('--deploy_backend', type=str, default='vLLM', choices=['vLLM', 'LMDeploy'])
 
     return parser.parse_args()
 
