@@ -153,6 +153,7 @@ def wait_gpu_memory_released(device_id, timeout=60, poll_interval=5):
 
 
 def stop_server(process, devices=None, wait_timeout=60):
+    pgid = None
     try:
         pgid = os.getpgid(process.pid)
         os.killpg(pgid, signal.SIGTERM)
