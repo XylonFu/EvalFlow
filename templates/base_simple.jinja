@@ -1,0 +1,9 @@
+{%- set ns = namespace(last_user_message='[No Question]') -%}
+{%- for message in messages | reverse -%}
+  {%- if message.role | lower == 'user' and message.content | default('', true) | trim != '' -%}
+    {%- set ns.last_user_message = message.content | string | trim -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{{- ns.last_user_message -}}

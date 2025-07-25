@@ -1,0 +1,14 @@
+{%- set ns = namespace(last_user_message='[No Question]') -%}
+{%- for message in messages | reverse -%}
+  {%- if message.role | lower == 'user' and message.content | default('', true) | trim != '' -%}
+    {%- set ns.last_user_message = message.content | string | trim -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{{- 'A conversation between User and Assistant. The user asks a question, and the Assistant solves it. ' -}}
+{{- 'The assistant first thinks about the reasoning process in the mind and then provides the user with the answer, ' -}}
+{{- 'ensuring that the final result in the answer is enclosed in \\boxed{}. ' -}}
+{{- 'The reasoning process and answer are enclosed within <think> </think> and <answer> </answer> tags, respectively, ' -}}
+{{- 'i.e., <think> reasoning process here </think> <answer> answer here </answer>. ' -}}
+{{- 'User: ' + ns.last_user_message + ' Assistant: <think>' -}}
