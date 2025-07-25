@@ -7,7 +7,7 @@ import os
 def run_evaluation(args, model_path, model_name):
     devices = [int(d) for d in args.eval_devices.split(',')]
 
-    if args.deploy_backend == 'vLLM':
+    if args.deploy_backend == 'vllm':
         eval_server = start_vllm_server(
             conda_env_path=args.conda_env,
             model_path=model_path,
@@ -19,7 +19,7 @@ def run_evaluation(args, model_path, model_name):
             port=args.eval_port,
             chat_template=args.eval_template,
         )
-    elif args.deploy_backend == 'LMDeploy':
+    elif args.deploy_backend == 'lmdeploy':
         eval_server = start_lmdeploy_server(
             conda_env_path=args.conda_env,
             model_path=model_path,
@@ -35,7 +35,7 @@ def run_evaluation(args, model_path, model_name):
     try:
         wait_server(port=args.eval_port, timeout=600)
 
-        if args.eval_backend == 'VLMEvalKit':
+        if args.eval_backend == 'vlmeval':
             task_cfg = TaskConfig(
                 work_dir=args.work_dir,
                 use_cache=args.work_dir,
@@ -53,12 +53,12 @@ def run_evaluation(args, model_path, model_name):
                         "max_tokens": args.eval_max_new_tokens,
                         "temperature": args.eval_temperature
                     }],
-                    "OPENAI_API_BASE": f"http://{args.judge_host}:{args.judge_port}/v1/chat/completions",
+                    "OPENAI_API_BASE": args.judge_api_url,
                     "OPENAI_API_KEY": args.judge_api_key,
                     "LOCAL_LLM": args.judge_model_name
                 }
             )
-        elif args.eval_backend == 'Native':
+        elif args.eval_backend == 'native':
             EVAL_PROMPT_TEMPLATE = (
                 "{query} Please reason step by step, and put your final answer within \\boxed{{}}."
             )
@@ -85,7 +85,7 @@ def run_evaluation(args, model_path, model_name):
                 judge_strategy="llm",
                 judge_worker_num=args.judge_max_num_seqs,
                 judge_model_args={
-                    "api_url": f"http://{args.judge_host}:{args.judge_port}/v1",
+                    "api_url": args.judge_api_url,
                     "api_key": args.judge_api_key,
                     "model_id": args.judge_model_name
                 }

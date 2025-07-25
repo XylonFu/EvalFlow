@@ -8,9 +8,11 @@ EvalFlow is a plugin for [EvalScope](https://github.com/modelscope/evalscope) th
 python evalflow.py \
     --conda_env /path/to/conda_env \
     --work_dir /path/to/work_dir \
-    --eval_model_path /path/to/model \
-    --eval_model_name model_name \
-    --judge_model_name judge_model_name
+    --eval_model_path /path/to/eval_model \
+    --eval_model_name eval_model_name \
+    --judge_model_name judge_model_name \
+    --judge_api_url judge_api_url \
+    --judge_api_key judge_api_key \
 ```
 
 ## Parameters
@@ -20,7 +22,9 @@ python evalflow.py \
 - `--work_dir`: Working directory for evaluation results and temporary files (required)
 - `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
 - `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
-- `--judge_model_name`: Served Name of the judge model (required)
+- `--judge_model_name`: Served name of the judge model (required)
+- `--judge_api_url`: API URL for judge service (required); for `vlmeval`, ensure it ends with `v1/chat/completions`; for `native`, ensure it ends with `v1`.
+- `--judge_api_key`: API KEY for judge service (required)
 
 ### Optional Parameters - General
 - `--reuse`: Whether to reuse existing results (True/False, default: True)
@@ -35,16 +39,11 @@ python evalflow.py \
 - `--eval_devices`: Comma-separated GPU devices for evaluation (default: "0")
 - `--eval_host`: Host address for evaluation service (default: "127.0.0.1")
 - `--eval_port`: Port for evaluation service (default: 8000)
-- `--eval_api_key`: API key for evaluation service (default: "EMPTY")
+- `--eval_api_key`: API KEY for evaluation service (default: "EMPTY")
 
 ### Optional Parameters - Judge Model
-- `--judge_max_model_length`: Maximum context length for judge model (default: 8192)
 - `--judge_max_num_seqs`: Maximum concurrent sequences for judging (default: 200)
-- `--judge_devices`: Comma-separated GPU devices for judge model (default: "0")
-- `--judge_host`: Host address for judge service (default: "10.7.91.121")
-- `--judge_port`: Port for judge service (default: 8000)
-- `--judge_api_key`: API key for judge service (default: "EmpTY")
 
 ### Optional Parameters - Backend
-- `--eval_backend`: Evaluation backend ("VLMEvalKit" or "Native", default: "VLMEvalKit")
-- `--deploy_backend`: Model serving backend ("vLLM" or "LMDeploy", default: "vLLM")
+- `--eval_backend`: Evaluation backend ("vlmeval" or "native", default: "vlmeval")
+- `--deploy_backend`: Model serving backend ("vllm" or "lmdeploy", default: "vllm")

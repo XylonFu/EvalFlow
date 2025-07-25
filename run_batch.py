@@ -15,12 +15,9 @@ def parse_args():
     ])
     
     parser.add_argument('--judge_model_name', required=True)
-    parser.add_argument('--judge_max_model_length', type=int, default=8192)
     parser.add_argument('--judge_max_num_seqs', type=int, default=200)
-    parser.add_argument('--judge_devices', type=str, default='0')
-    parser.add_argument('--judge_host', type=str, default='10.7.91.121')
-    parser.add_argument('--judge_port', type=int, default=8000)
-    parser.add_argument('--judge_api_key', type=str, default='EmpTY')
+    parser.add_argument('--judge_api_url', type=str, required=True)
+    parser.add_argument('--judge_api_key', type=str, required=True)
     
     parser.add_argument('--eval_model_path', required=True, nargs='+')
     parser.add_argument('--eval_model_name', required=True, nargs='+')
@@ -34,8 +31,8 @@ def parse_args():
     parser.add_argument('--eval_port', type=int, default=8000)
     parser.add_argument('--eval_api_key', type=str, default='EMPTY')
 
-    parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
-    parser.add_argument('--deploy_backend', type=str, default='vLLM', choices=['vLLM', 'LMDeploy'])
+    parser.add_argument('--eval_backend', type=str, default='vlmeval', choices=['vlmeval', 'native'])
+    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy'])
 
     return parser.parse_args()
 
