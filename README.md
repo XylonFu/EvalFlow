@@ -21,8 +21,8 @@ python evalflow.py \
 - `--work_dir`: Working directory for evaluation results and temporary files (required)
 - `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
 - `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
-- `--judge_model_path`: Path to the judge/grader model (required)
-- `--judge_model_name`: Name of the judge/grader model (required)
+- `--judge_model_path`: Path to the judge model (required)
+- `--judge_model_name`: Name of the judge model (required)
 
 ### Optional Parameters - General
 - `--reuse`: Whether to reuse existing results (True/False, default: True)
