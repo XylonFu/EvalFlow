@@ -1,4 +1,4 @@
-# EvalFlow - EvalScope Plugin for Model Deployment and Evaluation
+# EvalFlow
 
 ## Introduction
 
