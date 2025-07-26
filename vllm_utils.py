@@ -56,6 +56,7 @@ def start_lmdeploy_server(conda_env_path, model_path, served_model_name,
         "--server-name", host,
         "--server-port", str(port),
         "--api-keys", api_key,
+        "--log-level", "INFO",
     ]
     if chat_template is not None:
         cmd.extend(["--chat-template", chat_template])

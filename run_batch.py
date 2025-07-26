@@ -31,7 +31,7 @@ def parse_args():
     parser.add_argument('--eval_port', type=int, default=8000)
     parser.add_argument('--eval_api_key', type=str, default='EMPTY')
 
-    parser.add_argument('--eval_backend', type=str, default='vlmeval', choices=['vlmeval', 'native'])
+    parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
     parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy'])
 
     return parser.parse_args()

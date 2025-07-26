@@ -35,7 +35,7 @@ def run_evaluation(args, model_path, model_name):
     try:
         wait_server(port=args.eval_port, timeout=600)
 
-        if args.eval_backend == 'vlmeval':
+        if args.eval_backend == 'VLMEvalKit':
             task_cfg = TaskConfig(
                 work_dir=args.work_dir,
                 use_cache=args.work_dir,
@@ -58,7 +58,7 @@ def run_evaluation(args, model_path, model_name):
                     "LOCAL_LLM": args.judge_model_name
                 }
             )
-        elif args.eval_backend == 'native':
+        elif args.eval_backend == 'Native':
             EVAL_PROMPT_TEMPLATE = (
                 "{query} Please reason step by step, and put your final answer within \\boxed{{}}."
             )

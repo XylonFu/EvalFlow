@@ -23,7 +23,7 @@ python evalflow.py \
 - `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
 - `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
 - `--judge_model_name`: Served name of the judge model (required)
-- `--judge_api_url`: API URL for judge service (required); for `vlmeval`, ensure it ends with `/v1/chat/completions`; for `native`, ensure it ends with `/v1`.
+- `--judge_api_url`: API URL for judge service (required); for `VLMEvalKit`, ensure it ends with `/v1/chat/completions`; for `Native`, ensure it ends with `/v1`.
 - `--judge_api_key`: API KEY for judge service (required)
 
 ### Optional Parameters - General
