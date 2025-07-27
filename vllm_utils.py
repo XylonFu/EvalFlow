@@ -74,7 +74,7 @@ def start_swift_server(conda_env_path, model_path, served_model_name,
     env["CUDA_VISIBLE_DEVICES"] = devices_str
     cmd = [
         "conda", "run", "--prefix", os.path.expandvars(conda_env_path), "--no-capture-output",
-        "swift", "deploy", model_path,
+        "swift", "deploy", "--model", model_path,
         "--served-model-name", served_model_name,
         "--tensor-parallel-size", str(tensor_parallel_size),
         "--max-model-len", str(max_model_len),
