@@ -66,7 +66,7 @@ def start_lmdeploy_server(conda_env_path, model_path, served_model_name,
 def start_swift_server(conda_env_path, model_path, served_model_name,
                      devices=None, tensor_parallel_size=4, max_model_len=16384, max_num_seqs=512,
                      host="127.0.0.1", port=8000, api_key="EMPTY", 
-                     infer_backend='vllm', template=None, system=None):
+                     infer_backend='lmdeploy', template=None, system=None):
     if devices is None:
         devices = [0, 1, 2, 3]
     devices_str = ",".join(str(d) for d in devices)
@@ -74,15 +74,15 @@ def start_swift_server(conda_env_path, model_path, served_model_name,
     env["CUDA_VISIBLE_DEVICES"] = devices_str
     cmd = [
         "conda", "run", "--prefix", os.path.expandvars(conda_env_path), "--no-capture-output",
-        "swift", "deploy", "--model", model_path,
-        "--served_model_name", served_model_name,
+        "swift", "deploy", model_path,
+        "--served-model-name", served_model_name,
         "--tensor-parallel-size", str(tensor_parallel_size),
         "--max-model-len", str(max_model_len),
         "--max-num-seqs", str(max_num_seqs),
         "--host", host,
         "--port", str(port),
         "--api-key", api_key,
-        "--infer_backend", infer_backend,
+        "--infer-backend", infer_backend,
     ]
     if template is not None:
         cmd.extend(["--template", template])
@@ -93,7 +93,7 @@ def start_swift_server(conda_env_path, model_path, served_model_name,
 
 
 def wait_server(host="127.0.0.1", port=8000, timeout=600):
-    url = f"http://{host}:{port}/health"
+    url = f"http://{host}:{port}/docs"
     deadline = time.time() + timeout
     while time.time() < deadline:
         try:

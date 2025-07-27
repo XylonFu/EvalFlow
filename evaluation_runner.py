@@ -16,7 +16,9 @@ def run_evaluation(args, model_path, model_name):
             tensor_parallel_size=len(devices),
             max_model_len=args.eval_max_model_length,
             max_num_seqs=args.eval_max_num_seqs,
+            host=args.eval_host,
             port=args.eval_port,
+            api_key=args.eval_api_key,
             chat_template=args.eval_template,
         )
     elif args.deploy_backend == 'lmdeploy':
@@ -28,7 +30,9 @@ def run_evaluation(args, model_path, model_name):
             tensor_parallel_size=len(devices),
             max_model_len=args.eval_max_model_length,
             max_num_seqs=args.eval_max_num_seqs,
+            host=args.eval_host,
             port=args.eval_port,
+            api_key=args.eval_api_key,
             chat_template=args.eval_template,
         )
     elif args.deploy_backend == 'swift':
@@ -40,9 +44,12 @@ def run_evaluation(args, model_path, model_name):
             tensor_parallel_size=len(devices),
             max_model_len=args.eval_max_model_length,
             max_num_seqs=args.eval_max_num_seqs,
+            host=args.eval_host,
             port=args.eval_port,
-            template="internvl2_5",
-            system="You are a helpful assistant.",
+            api_key=args.eval_api_key,
+            infer_backend=args.swift_infer_backend,
+            template=agrs.swift_template,
+            system=agrs.swift_system,
         )
 
     try:
@@ -55,7 +62,7 @@ def run_evaluation(args, model_path, model_name):
                 eval_backend=args.eval_backend,
                 eval_config={
                     "data": args.datasets,
-                    "mode": args.vlmeval_mode,
+                    "mode": args.vlmevalkit_mode,
                     "reuse": args.reuse,
                     "nproc": args.eval_max_num_seqs,
                     "model": [{
