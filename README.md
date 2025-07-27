@@ -18,7 +18,7 @@ python evalflow.py \
 ## Parameters
 
 ### Required Parameters
-- `--conda_env`: Path to conda environment with vLLM/LMDeploy dependencies (required)
+- `--conda_env`: Path to conda environment with vLLM/LMDeploy/Swift dependencies (required)
 - `--work_dir`: Working directory for evaluation results and temporary files (required)
 - `--eval_model_path`: Path(s) to the model(s) being evaluated (can specify multiple) (required)
 - `--eval_model_name`: Name(s) of the model(s) being evaluated (can specify multiple) (required)
@@ -44,6 +44,11 @@ python evalflow.py \
 ### Optional Parameters - Judge Model
 - `--judge_max_num_seqs`: Maximum concurrent sequences for judging (default: 200)
 
-### Optional Parameters - Backend
-- `--eval_backend`: Evaluation backend ("vlmeval" or "native", default: "vlmeval")
-- `--deploy_backend`: Model serving backend ("vllm" or "lmdeploy", default: "vllm")
+### Optional Parameters - Backend Configuration
+- `--eval_backend`: Evaluation backend ("VLMEvalKit" or "Native", default: "VLMEvalKit")
+- `--deploy_backend`: Model serving backend ("vllm", "lmdeploy", "swift", or "remote", default: "vllm")
+- `--vlmevalkit_mode`: VLMEvalKit evaluation mode ("all" or "infer", default: "all")
+- `--swift_infer_backend`: Swift inference backend ("pt", "vllm", "sglang", or "lmdeploy", default: "lmdeploy")
+- `--swift_template`: Template type for Swift inference (default: None)
+- `--swift_system`: System prompt for Swift inference (default: None)
+- `--remote_api_url`: API URL for remote backend (required when deploy_backend is "remote")
