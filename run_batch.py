@@ -32,8 +32,9 @@ def parse_args():
     parser.add_argument('--eval_api_key', type=str, default='EMPTY')
 
     parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
-    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'swift', 'remote'])
     parser.add_argument('--vlmevalkit_mode', type=str, default='all', choices=['all', 'infer'])
+
+    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'swift', 'remote'])
     parser.add_argument('--swift_infer_backend', type=str, default='lmdeploy', choices=['pt', 'vllm', 'sglang', 'lmdeploy'])
     parser.add_argument('--swift_template', type=str, default=None)
     parser.add_argument('--swift_system', type=str, default=None)

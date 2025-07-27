@@ -46,8 +46,9 @@ python evalflow.py \
 
 ### Optional Parameters - Backend Configuration
 - `--eval_backend`: Evaluation backend ("VLMEvalKit" or "Native", default: "VLMEvalKit")
-- `--deploy_backend`: Model serving backend ("vllm", "lmdeploy", "swift", or "remote", default: "vllm")
 - `--vlmevalkit_mode`: VLMEvalKit evaluation mode ("all" or "infer", default: "all")
+
+- `--deploy_backend`: Model serving backend ("vllm", "lmdeploy", "swift", or "remote", default: "vllm")
 - `--swift_infer_backend`: Swift inference backend ("pt", "vllm", "sglang", or "lmdeploy", default: "lmdeploy")
 - `--swift_template`: Template type for Swift inference (default: None)
 - `--swift_system`: System prompt for Swift inference (default: None)
