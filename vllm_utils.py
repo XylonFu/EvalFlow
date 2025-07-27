@@ -83,6 +83,7 @@ def start_swift_server(conda_env_path, model_path, served_model_name,
         "--port", str(port),
         "--api-key", api_key,
         "--infer-backend", infer_backend,
+        "--log-level", "warning",
     ]
     if template is not None:
         cmd.extend(["--template", template])

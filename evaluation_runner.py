@@ -51,9 +51,19 @@ def run_evaluation(args, model_path, model_name):
             template=agrs.swift_template,
             system=agrs.swift_system,
         )
+    elif args.deploy_backend == 'remote':
+        if args.remote_api_url is None:
+            raise ValueError("remote_api_url must be provided when deploy_backend is 'remote'")
+        eval_server = None
 
     try:
-        wait_server(port=args.eval_port, timeout=600)
+        if args.deploy_backend != 'remote':
+            wait_server(port=args.eval_port, timeout=600)
+
+        api_url = (args.remote_api_url if args.deploy_backend == 'remote' 
+                  else f"http://{args.eval_host}:{args.eval_port}/v1")
+        api_base = (args.remote_api_url if args.deploy_backend == 'remote'
+                   else f"http://{args.eval_host}:{args.eval_port}/v1/chat/completions")
 
         if args.eval_backend == 'VLMEvalKit':
             task_cfg = TaskConfig(
@@ -68,7 +78,7 @@ def run_evaluation(args, model_path, model_name):
                     "model": [{
                         "type": model_name,
                         "name": "CustomAPIModel",
-                        "api_base": f"http://{args.eval_host}:{args.eval_port}/v1/chat/completions",
+                        "api_base": api_base,
                         "key": args.eval_api_key,
                         "max_tokens": args.eval_max_new_tokens,
                         "temperature": args.eval_temperature
@@ -96,7 +106,7 @@ def run_evaluation(args, model_path, model_name):
                 eval_batch_size=args.eval_max_num_seqs,
                 model=model_name,
                 model_id=model_name,
-                api_url=f"http://{args.eval_host}:{args.eval_port}/v1",
+                api_url=api_url,
                 api_key=args.eval_api_key,
                 generation_config={
                     "max_tokens": args.eval_max_new_tokens,
@@ -114,4 +124,5 @@ def run_evaluation(args, model_path, model_name):
         run_task(task_cfg=task_cfg)
 
     finally:
-        stop_server(eval_server, devices)
+        if args.deploy_backend != 'remote':
+            stop_server(eval_server, devices)
