@@ -48,8 +48,8 @@ def run_evaluation(args, model_path, model_name):
             port=args.eval_port,
             api_key=args.eval_api_key,
             infer_backend=args.swift_infer_backend,
-            template=agrs.swift_template,
-            system=agrs.swift_system,
+            template=args.swift_template,
+            system=args.swift_system,
         )
     elif args.deploy_backend == 'remote':
         if args.remote_api_url is None:
