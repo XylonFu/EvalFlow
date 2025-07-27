@@ -1,6 +1,6 @@
 from evalscope.run import run_task
 from evalscope.config import TaskConfig
-from vllm_utils import start_vllm_server, start_lmdeploy_server, wait_server, stop_server
+from vllm_utils import start_vllm_server, start_lmdeploy_server, start_swift_server, wait_server, stop_server
 import os
 
 
@@ -31,6 +31,19 @@ def run_evaluation(args, model_path, model_name):
             port=args.eval_port,
             chat_template=args.eval_template,
         )
+    elif args.deploy_backend == 'swift':
+        eval_server = start_swift_server(
+            conda_env_path=args.conda_env,
+            model_path=model_path,
+            served_model_name=model_name,
+            devices=devices,
+            tensor_parallel_size=len(devices),
+            max_model_len=args.eval_max_model_length,
+            max_num_seqs=args.eval_max_num_seqs,
+            port=args.eval_port,
+            template="internvl2_5",
+            system="You are a helpful assistant.",
+        )
 
     try:
         wait_server(port=args.eval_port, timeout=600)
@@ -42,7 +55,7 @@ def run_evaluation(args, model_path, model_name):
                 eval_backend=args.eval_backend,
                 eval_config={
                     "data": args.datasets,
-                    "mode": "all",
+                    "mode": args.vlmeval_mode,
                     "reuse": args.reuse,
                     "nproc": args.eval_max_num_seqs,
                     "model": [{
