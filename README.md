@@ -36,7 +36,7 @@ python evalflow.py \
 - `--eval_max_num_seqs`: Maximum concurrent sequences for evaluation (default: 200)
 - `--eval_template`: Path to chat template file (default: None)
 - `--eval_temperature`: Sampling temperature (0.0 for deterministic) (default: 0.0)
-- `--eval_devices`: One or more GPU device indices for evaluation (default: [0])
+- `--eval_devices`: Comma-separated GPU devices for evaluation (default: "0")
 - `--eval_host`: Host address for evaluation service (default: "127.0.0.1")
 - `--eval_port`: Port for evaluation service (default: 8000)
 - `--eval_api_key`: API KEY for evaluation service (default: "EMPTY")
