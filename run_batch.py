@@ -26,7 +26,7 @@ def parse_args():
     parser.add_argument('--eval_max_num_seqs', type=int, default=200)
     parser.add_argument('--eval_template', type=str, default=None)
     parser.add_argument('--eval_temperature', type=float, default=0.0)
-    parser.add_argument('--eval_devices', type=str, default='0')
+    parser.add_argument('--eval_devices', type=int, nargs='+', default=[0])
     parser.add_argument('--eval_host', type=str, default='127.0.0.1')
     parser.add_argument('--eval_port', type=int, default=8000)
     parser.add_argument('--eval_api_key', type=str, default='EMPTY')
