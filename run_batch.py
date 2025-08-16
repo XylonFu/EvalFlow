@@ -11,7 +11,7 @@ def parse_args():
     parser.add_argument('--reuse', type=bool, default=True)
     
     parser.add_argument('--datasets', nargs='+', default=[
-        'LogicVista', 'MMMU_DEV_VAL', 'MathVista_MINI', 'WeMath', 'MathVision', 'MathVerse_MINI', 'DynaMath',
+        'LogicVista', 'MathVista_MINI', 'WeMath', 'MathVision', 'MathVerse_MINI', 'DynaMath',
     ])
     
     parser.add_argument('--judge_model_name', required=True)
