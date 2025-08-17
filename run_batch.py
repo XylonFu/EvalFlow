@@ -3,13 +3,24 @@ from vllm_utils import start_vllm_server, wait_server, stop_server
 from evaluation_runner import run_evaluation
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--conda_env', required=True)
+    parser.add_argument('--conda_env', type=str)
     parser.add_argument('--work_dir', required=True)
-    parser.add_argument('--reuse', type=bool, default=True)
-    
+    parser.add_argument('--reuse', type=str2bool, default=True)
+
     parser.add_argument('--datasets', nargs='+', default=[
         'LogicVista', 'MathVista_MINI', 'WeMath', 'MathVision', 'MathVerse_MINI', 'DynaMath',
     ])
@@ -19,7 +30,7 @@ def parse_args():
     parser.add_argument('--judge_api_url', type=str, required=True)
     parser.add_argument('--judge_api_key', type=str, required=True)
     
-    parser.add_argument('--eval_model_path', required=True, nargs='+')
+    parser.add_argument('--eval_model_path', nargs='+', default=None)
     parser.add_argument('--eval_model_name', required=True, nargs='+')
     parser.add_argument('--eval_max_model_length', type=int, default=32768)
     parser.add_argument('--eval_max_new_tokens', type=int, default=2048)
@@ -34,21 +45,36 @@ def parse_args():
     parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
     parser.add_argument('--vlmevalkit_mode', type=str, default='all', choices=['all', 'infer'])
 
-    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'swift', 'remote'])
-    parser.add_argument('--swift_infer_backend', type=str, default='lmdeploy', choices=['pt', 'vllm', 'sglang', 'lmdeploy'])
-    parser.add_argument('--swift_template', type=str, default=None)
-    parser.add_argument('--swift_system', type=str, default=None)
-    parser.add_argument('--remote_api_url', type=str, default=None)
+    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'remote'])
+    parser.add_argument('--remote_api_url', nargs='+', default=None)
 
-    return parser.parse_args()
+    args = parser.parse_args()
+    
+    if args.deploy_backend == 'remote':
+        if args.remote_api_url is None or len(args.remote_api_url) != len(args.eval_model_name):
+            parser.error("When using remote backend, --remote_api_url must be provided and have the same number of URLs as --eval_model_name")
+        if args.eval_model_path is not None:
+            print("Warning: --eval_model_path is ignored when using remote backend")
+    else:
+        if not args.conda_env:
+            parser.error("--conda_env is required when not using remote backend")
+        if args.eval_model_path is None or len(args.eval_model_path) != len(args.eval_model_name):
+            parser.error("--eval_model_path must be provided and match the number of --eval_model_name when not using remote backend")
+
+    return args
 
 
 def main():
     args = parse_args()
 
     try:
-        for model_path, model_name in zip(args.eval_model_path, args.eval_model_name):
-            run_evaluation(args, model_path, model_name)
+        if args.deploy_backend == 'remote':
+            identifiers = args.remote_api_url
+        else:
+            identifiers = args.eval_model_path
+
+        for identifier, model_name in zip(identifiers, args.eval_model_name):
+            run_evaluation(args, identifier, model_name)
 
     finally:
         pass
