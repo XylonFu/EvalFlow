@@ -73,6 +73,7 @@ def start_pytorch_server(conda_env_path, model_path, served_model_name,
         devices = list(range(torch.cuda.device_count())) if torch.cuda.is_available() else [0]
     devices_str = ",".join(str(d) for d in devices)
     env = os.environ.copy()
+    env["NPROC_PER_NODE"] = str(len(devices))
     env["CUDA_VISIBLE_DEVICES"] = devices_str
     cmd = [
         "conda", "run", "--prefix", os.path.expandvars(conda_env_path), "--no-capture-output",
