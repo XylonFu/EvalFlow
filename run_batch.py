@@ -46,7 +46,8 @@ def parse_args():
     parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
     parser.add_argument('--vlmevalkit_mode', type=str, default='all', choices=['all', 'infer'])
 
-    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'pytorch', 'remote'])
+    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'swift', 'remote'])
+    parser.add_argument('--swift_infer_backend', type=str, default='pytorch', choices=['pytorch', 'vllm', 'lmdeploy'])
     parser.add_argument('--remote_api_url', nargs='+', default=None)
 
     args = parser.parse_args()

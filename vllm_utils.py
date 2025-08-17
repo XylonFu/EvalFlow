@@ -65,10 +65,10 @@ def start_lmdeploy_server(conda_env_path, model_path, served_model_name,
     return process
 
 
-def start_pytorch_server(conda_env_path, model_path, served_model_name,
+def start_swift_server(conda_env_path, model_path, served_model_name,
                      devices=None, tensor_parallel_size=4, max_model_len=16384, max_num_seqs=512,
                      host="127.0.0.1", port=8000, api_key="EMPTY", 
-                     chat_template=None, chat_system=None):
+                     infer_backend="pytorch", template=None, system=None):
     if devices is None:
         devices = list(range(torch.cuda.device_count())) if torch.cuda.is_available() else [0]
     devices_str = ",".join(str(d) for d in devices)
@@ -85,12 +85,12 @@ def start_pytorch_server(conda_env_path, model_path, served_model_name,
         "--host", host,
         "--port", str(port),
         "--api-key", api_key,
-        "--infer-backend", "pt",
+        "--infer-backend", infer_backend,
     ]
-    if chat_template is not None:
-        cmd.extend(["--template", chat_template])
-    if chat_system is not None:
-        cmd.extend(["--system", chat_system])
+    if template is not None:
+        cmd.extend(["--template", template])
+    if system is not None:
+        cmd.extend(["--system", system])
     process = subprocess.Popen(cmd, env=env, start_new_session=True)
     return process
 

@@ -1,6 +1,6 @@
 from evalscope.run import run_task
 from evalscope.config import TaskConfig
-from vllm_utils import start_vllm_server, start_lmdeploy_server, start_pytorch_server, wait_server, stop_server
+from vllm_utils import start_vllm_server, start_lmdeploy_server, start_swift_server, wait_server, stop_server
 import os
 
 
@@ -39,8 +39,8 @@ def run_evaluation(args, model_identifier, model_name):
                 api_key=args.eval_api_key,
                 chat_template=args.eval_template,
             )
-        elif args.deploy_backend == 'pytorch':
-            eval_server = start_pytorch_server(
+        elif args.deploy_backend == 'swift':
+            eval_server = start_swift_server(
                 conda_env_path=args.conda_env,
                 model_path=model_identifier,
                 served_model_name=model_name,
@@ -51,8 +51,9 @@ def run_evaluation(args, model_identifier, model_name):
                 host=args.eval_host,
                 port=args.eval_port,
                 api_key=args.eval_api_key,
-                chat_template=args.eval_template,
-                chat_system=args.eval_system
+                infer_backend=args.swift_infer_backend,
+                template=args.eval_template,
+                system=args.eval_system
             )
         
         wait_server(port=args.eval_port, timeout=600)
