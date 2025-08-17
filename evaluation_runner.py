@@ -67,27 +67,31 @@ def run_evaluation(args, model_identifier, model_name):
 
     try:
         if args.eval_backend == 'VLMEvalKit':
+            eval_config = {
+                "data": args.datasets,
+                "mode": args.vlmevalkit_mode,
+                "reuse": args.reuse,
+                "nproc": args.eval_max_num_seqs,
+                "model": [{
+                    "type": model_name,
+                    "name": "CustomAPIModel",
+                    "api_base": api_base,
+                    "key": args.eval_api_key,
+                    "max_tokens": args.eval_max_new_tokens,
+                    "temperature": args.eval_temperature
+                }]
+            }
+            
+            if args.vlmevalkit_mode != 'infer':
+                eval_config["OPENAI_API_BASE"] = args.judge_api_url
+                eval_config["OPENAI_API_KEY"] = args.judge_api_key
+                eval_config["LOCAL_LLM"] = args.judge_model_name
+                
             task_cfg = TaskConfig(
                 work_dir=args.work_dir,
                 use_cache=args.work_dir,
                 eval_backend=args.eval_backend,
-                eval_config={
-                    "data": args.datasets,
-                    "mode": args.vlmevalkit_mode,
-                    "reuse": args.reuse,
-                    "nproc": args.eval_max_num_seqs,
-                    "model": [{
-                        "type": model_name,
-                        "name": "CustomAPIModel",
-                        "api_base": api_base,
-                        "key": args.eval_api_key,
-                        "max_tokens": args.eval_max_new_tokens,
-                        "temperature": args.eval_temperature
-                    }],
-                    "OPENAI_API_BASE": args.judge_api_url,
-                    "OPENAI_API_KEY": args.judge_api_key,
-                    "LOCAL_LLM": args.judge_model_name
-                }
+                eval_config=eval_config
             )
         elif args.eval_backend == 'Native':
             EVAL_PROMPT_TEMPLATE = (

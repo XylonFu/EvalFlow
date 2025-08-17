@@ -1,5 +1,4 @@
 import argparse
-from vllm_utils import start_vllm_server, wait_server, stop_server
 from evaluation_runner import run_evaluation
 
 
@@ -25,10 +24,10 @@ def parse_args():
         'LogicVista', 'MathVista_MINI', 'WeMath', 'MathVision', 'MathVerse_MINI', 'DynaMath',
     ])
     
-    parser.add_argument('--judge_model_name', required=True)
+    parser.add_argument('--judge_model_name', type=str)
     parser.add_argument('--judge_max_num_seqs', type=int, default=200)
-    parser.add_argument('--judge_api_url', type=str, required=True)
-    parser.add_argument('--judge_api_key', type=str, required=True)
+    parser.add_argument('--judge_api_url', type=str)
+    parser.add_argument('--judge_api_key', type=str)
     
     parser.add_argument('--eval_model_path', nargs='+', default=None)
     parser.add_argument('--eval_model_name', required=True, nargs='+')
@@ -62,6 +61,13 @@ def parse_args():
             parser.error("--conda_env is required when not using remote backend")
         if args.eval_model_path is None or len(args.eval_model_path) != len(args.eval_model_name):
             parser.error("--eval_model_path must be provided and match the number of --eval_model_name when not using remote backend")
+    
+    if args.eval_backend == 'VLMEvalKit' and args.vlmevalkit_mode != 'infer':
+        if not args.judge_model_name or not args.judge_api_url or not args.judge_api_key:
+            parser.error("When eval_backend is VLMEvalKit and vlmevalkit_mode is not 'infer', judge_model_name, judge_api_url, and judge_api_key are required.")
+    elif args.eval_backend == 'Native':
+        if not args.judge_model_name or not args.judge_api_url or not args.judge_api_key:
+            parser.error("When eval_backend is Native, judge_model_name, judge_api_url, and judge_api_key are required.")
 
     return args
 
