@@ -1,6 +1,6 @@
 from evalscope.run import run_task
 from evalscope.config import TaskConfig
-from vllm_utils import start_vllm_server, start_lmdeploy_server, wait_server, stop_server
+from vllm_utils import start_vllm_server, start_lmdeploy_server, start_pytorch_server, wait_server, stop_server
 import os
 
 
@@ -38,6 +38,21 @@ def run_evaluation(args, model_identifier, model_name):
                 port=args.eval_port,
                 api_key=args.eval_api_key,
                 chat_template=args.eval_template,
+            )
+        elif args.deploy_backend == 'pytorch':
+            eval_server = start_pytorch_server(
+                conda_env_path=args.conda_env,
+                model_path=model_identifier,
+                served_model_name=model_name,
+                devices=devices,
+                tensor_parallel_size=len(devices),
+                max_model_len=args.eval_max_model_length,
+                max_num_seqs=args.eval_max_num_seqs,
+                host=args.eval_host,
+                port=args.eval_port,
+                api_key=args.eval_api_key,
+                chat_template=args.eval_template,
+                chat_system=args.eval_system
             )
         
         wait_server(port=args.eval_port, timeout=600)

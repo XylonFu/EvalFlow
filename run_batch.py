@@ -36,6 +36,7 @@ def parse_args():
     parser.add_argument('--eval_max_new_tokens', type=int, default=2048)
     parser.add_argument('--eval_max_num_seqs', type=int, default=200)
     parser.add_argument('--eval_template', type=str, default=None)
+    parser.add_argument('--eval_system', type=str, default=None)
     parser.add_argument('--eval_temperature', type=float, default=0.0)
     parser.add_argument('--eval_devices', type=str, default='0')
     parser.add_argument('--eval_host', type=str, default='127.0.0.1')
@@ -45,7 +46,7 @@ def parse_args():
     parser.add_argument('--eval_backend', type=str, default='VLMEvalKit', choices=['VLMEvalKit', 'Native'])
     parser.add_argument('--vlmevalkit_mode', type=str, default='all', choices=['all', 'infer'])
 
-    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'remote'])
+    parser.add_argument('--deploy_backend', type=str, default='vllm', choices=['vllm', 'lmdeploy', 'pytorch', 'remote'])
     parser.add_argument('--remote_api_url', nargs='+', default=None)
 
     args = parser.parse_args()
